@@ -3,22 +3,17 @@ from .models import Post
 
 
 def list(request):
-    posts = Post.objects.all().order_by('-created_at')
-    # print(posts)
+    print(f'{request.POST = }', 'LIST')
 
-    return render(request, 'dashboard/post_list.html', {'posts': posts})
-
-
-def create(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         body = request.POST.get('body')
 
-        post = Post.objects.create(title=title, body=body)
+        Post.objects.create(title=title, body=body)
 
-    print(post)
+    posts = Post.objects.all().order_by('-created_at')
 
-    return render(request, 'dashboard/post.html', {'post': post})
+    return render(request, 'dashboard/post_list.html', {'posts': posts})
 
 
 def detail(request, post_id):
