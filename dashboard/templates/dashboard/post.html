@@ -1,0 +1,8 @@
+<li
+  id="post-list"
+  class="text-xl font-semibold cursor-pointer"
+  @click="openIndex = openIndex === {{ post.id }} ? null : {{ post.id }}"
+>
+  {{ post.title }}
+</li>
+<li x-show="openIndex === {{ post.id }}" x-transition.scale>{{ post.body }}</li>

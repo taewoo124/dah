@@ -1,5 +1,13 @@
 {% extends 'scaffoldings/base.html' %} {% block contents %}
-<div>
-  <h1 class="text-5xl font-bold">게시판 만들기</h1>
+<div class="flex flex-col items-center space-y-12">
+  <h1 class="text-5xl font-bold">DHA Dashboard</h1>
+  <div @foo="console.log('foo was dispatched')">
+    <button @click="$dispatch('foo')">foo</button>
+  </div>
+  <button
+    class="px-4 py-2 font-bold text-white bg-black border rounded hover:bg-slate-300"
+  >
+    클릭
+  </button>
 </div>
 {% endblock %}

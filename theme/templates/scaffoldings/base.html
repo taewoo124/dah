@@ -10,13 +10,18 @@
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.7/dist/cdn.min.js"
     ></script>
+    <script
+      src="https://unpkg.com/htmx.org@1.9.11"
+      integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0"
+      crossorigin="anonymous"
+    ></script>
 
     {% tailwind_css %}
   </head>
 
   <body class="leading-normal tracking-normal bg-gray-50">
     <div class="container mx-auto">
-      <section class="flex items-center justify-center h-screen">
+      <section class="flex justify-center h-screen mt-24">
         <main>{% block contents %}{% endblock %}</main>
       </section>
     </div>
