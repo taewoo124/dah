@@ -1,19 +1,21 @@
 from django.shortcuts import render
 from .models import Post
 
+from dashboard.forms import PostForm
+
 
 def list(request):
-    print(f'{request.POST = }', 'LIST')
-
     if request.method == 'POST':
-        title = request.POST.get('title')
-        body = request.POST.get('body')
-
-        Post.objects.create(title=title, body=body)
+        form = PostForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data.get('title')
+            body = form.cleaned_data.get('body')
+            Post.objects.create(title=title, body=body)
+    else:
+        form = PostForm()
 
     posts = Post.objects.all().order_by('-created_at')
-
-    return render(request, 'dashboard/post_list.html', {'posts': posts})
+    return render(request, 'dashboard/post_list.html', {'posts': posts, 'form': form})
 
 
 def detail(request, post_id):
