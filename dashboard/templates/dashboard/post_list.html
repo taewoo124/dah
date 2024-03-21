@@ -7,28 +7,31 @@
       <h1 class="text-4xl font-bold">게시글 목록</h1>
       <ul x-data="{ openIndex: null }" class="p-2">
         {% for post in posts %}
+        <div class="flex">
+          <a href="{% url 'dashboard:detail' post.id %}">
           <div class="flex flex-row items-center justify-between p-2 my-2 border rounded">
-            <div class="flex flex-col items-center justify-center min-h-12">
-              <li
-                class="text-xl font-semibold cursor-pointer"
-                @click="openIndex = openIndex === {{ post.id }} ? null : {{ post.id }}"
-              >
-                {{ post.title }}
-              </li>
-              <li x-show="openIndex === {{ post.id }}" x-transition.scale>
-                {{ post.body }}
-              </li>
+              <div class="flex flex-col items-center justify-center min-h-12">
+                <li
+                  class="text-xl font-semibold cursor-pointer"
+                  @click="openIndex = openIndex === {{ post.id }} ? null : {{ post.id }}"
+                >
+                  {{ post.title }}
+                </li>
+                <li x-show="openIndex === {{ post.id }}" x-transition.scale>
+                  {{ post.body }}
+                </li>
+              </div>
             </div>
-            <button
-              hx-delete="{% url 'dashboard:delete_post' post.id %}"
-              hx-target="#post-list"
-              hx-confirm="Are you sure?"
-              hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-              class="p-2 text-white bg-red-500 border rounded">
-              {% csrf_token %}
-              제거
-            </button>
-          </div>
+          </a>
+          <button
+            hx-delete="{% url 'dashboard:list_with_id' post.id %}"
+            hx-target="#post-list"
+            hx-confirm="Are you sure?"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            class="p-2 text-white bg-red-500 border rounded">
+            제거
+          </button>
+        </div>
         {% empty %}
           <li>게시글이 없습니다.</li>
         {% endfor %}
@@ -38,10 +41,11 @@
       <form
         hx-post="{% url 'dashboard:list' %}"
         hx-target="#post-list"
-        class="flex flex-col space-y-12"
+        class="flex flex-col space-y-4"
       >
         {% csrf_token %}
         <input id="title" type="text" name="title" placeholder="제목 입력" />
+        <textarea name="description" placeholder="설명 입력"></textarea>
         <textarea name="body" placeholder="내용 입력"></textarea>
         <button type="submit" class="px-4 py-2 text-white border rounded bg-slate-300">게시글 작성</button>
       </form>

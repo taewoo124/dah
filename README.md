@@ -1,1 +1,1 @@
-# Django + Alpine.js + HTMX 게시판~
+# Django + Alpine.js + HTMX 게시판

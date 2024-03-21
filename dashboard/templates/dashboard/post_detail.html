@@ -1,12 +1,9 @@
-<!-- post_detail.html -->
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>{{ post.title }}</title>
-  </head>
-  <body>
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.content }}</p>
-    <a href="/">목록으로 돌아가기</a>
-  </body>
-</html>
+{% extends 'scaffoldings/base.html' %} {% block contents %}
+<title>{{ post.title }}</title>
+<body>
+  <h1 class="text-6xl font-bold">{{ post.title }}</h1>
+  <p class="text-slate-400">{{ post.description }}</p>
+  <p>{{ post.body }}</p>
+  <a href="{% url 'dashboard:list' %}">목록으로 돌아가기</a>
+</body>
+{% endblock %}

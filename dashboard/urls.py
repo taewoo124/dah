@@ -5,6 +5,6 @@ import dashboard.views as views
 app_name = 'dashboard'
 urlpatterns = [
     path('', views.list, name='list'),
-    path('<int:post_id>/', views.detail, name='detail'),
-    path('delete/<int:post_id>', views.delete_post, name='delete_post'),
+    path('<int:pk>/', views.list, name='list_with_id'),
+    path('detail/<int:pk>/', views.detail, name='detail'),
 ]
