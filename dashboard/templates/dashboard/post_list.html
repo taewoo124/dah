@@ -7,19 +7,30 @@
       <h1 class="text-4xl font-bold">게시글 목록</h1>
       <ul x-data="{ openIndex: null }" class="p-2">
         {% for post in posts %}
-        <div class="flex flex-col items-center justify-center p-2 my-2 space-x-12 border rounded min-h-12">
-          <li
-            class="text-xl font-semibold cursor-pointer"
-            @click="openIndex = openIndex === {{ post.id }} ? null : {{ post.id }}"
-          >
-            {{ post.title }}
-          </li>
-          <li x-show="openIndex === {{ post.id }}" x-transition.scale>
-           {{ post.body }}
-          </li>
-        </div>
+          <div class="flex flex-row items-center justify-between p-2 my-2 border rounded">
+            <div class="flex flex-col items-center justify-center min-h-12">
+              <li
+                class="text-xl font-semibold cursor-pointer"
+                @click="openIndex = openIndex === {{ post.id }} ? null : {{ post.id }}"
+              >
+                {{ post.title }}
+              </li>
+              <li x-show="openIndex === {{ post.id }}" x-transition.scale>
+                {{ post.body }}
+              </li>
+            </div>
+            <button
+              hx-delete="{% url 'dashboard:delete_post' post.id %}"
+              hx-target="#post-list"
+              hx-confirm="Are you sure?"
+              hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+              class="p-2 text-white bg-red-500 border rounded">
+              {% csrf_token %}
+              제거
+            </button>
+          </div>
         {% empty %}
-        <li>게시글이 없습니다.</li>
+          <li>게시글이 없습니다.</li>
         {% endfor %}
       </ul>
     </div>
@@ -30,13 +41,31 @@
         class="flex flex-col space-y-12"
       >
         {% csrf_token %}
-        {{ form.as_p }}
-        <label for="title">제목: </label>
         <input id="title" type="text" name="title" placeholder="제목 입력" />
         <textarea name="body" placeholder="내용 입력"></textarea>
-        <button type="submit">게시글 작성</button>
+        <button type="submit" class="px-4 py-2 text-white border rounded bg-slate-300">게시글 작성</button>
       </form>
     </div>
   <div>
 </body>
+
+<script>
+function getCookie(name) {
+  let cookieValue;
+
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+
+      if (cookie.substring(0, name.length + 1) === (name + "=")) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+
+  return cookieValue;
+}
+</script>
 {% endblock %}

@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+
 from .models import Post
 
 from dashboard.forms import PostForm
@@ -8,14 +9,23 @@ def list(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
+
             title = form.cleaned_data.get('title')
             body = form.cleaned_data.get('body')
             Post.objects.create(title=title, body=body)
+
     else:
         form = PostForm()
 
     posts = Post.objects.all().order_by('-created_at')
     return render(request, 'dashboard/post_list.html', {'posts': posts, 'form': form})
+
+
+def delete_post(request, post_id):
+    if request.method == 'DELETE':
+        post = get_object_or_404(Post, pk=post_id)
+        post.delete()
+        return redirect('dashboard:list')
 
 
 def detail(request, post_id):
